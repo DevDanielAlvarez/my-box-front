@@ -1,6 +1,6 @@
 # Inventory App
 
-![Inventory App Logo](public/img/logo.jpg)
+![Inventory App Logo](public/logo.jpg)
 
 Open-source Next.js (v16.0.5) inventory management app — inspired by GLPI, focused on material control. The repository currently contains only a few initial components and a basic layout.
 
