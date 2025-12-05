@@ -1,9 +1,13 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Eye, EyeOff } from "lucide-react"; // ou ícone equivalente
 import Link from "next/link";
+import { useState } from "react";
 
-export default function loginPage() {
+export default function registerPage() {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className=" h-screen grid grid-cols-2">
       {/* ==== LEFT COLUMN START ==== */}
@@ -18,6 +22,11 @@ export default function loginPage() {
         </div>
         {/* FORM */}
         <form className="mt-12 flex gap-2 flex-col">
+          {/* NAME INPUT */}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24">
+            <Label htmlFor="name">Name</Label>
+            <Input className="w-full" id="name" type="text" />
+          </div>
           {/* EMAIL INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="email">Email</Label>
@@ -28,20 +37,19 @@ export default function loginPage() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" />
           </div>
-          <div className="flex justify-end pr-24 mt-1">
-            <Link href={"test"}>
-              <Label className="text-blue-600 cursor-pointer underline">
-                Forgot password?
-              </Label>
-            </Link>
+          {/* CONFIRM PASSWORD INPUT*/}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24 relative">
+            <Label htmlFor="confirm password">Confirm your password</Label>
+            <Input id="confirm_password" type="password" />
           </div>
+
           <div className="w-full pl-24 pr-24">
-            <Button className="w-full h-12 mt-6">Login</Button>
+            <Button className=" w-full mt-6 h-12">Register</Button>
           </div>
           <p className=" flex justify-center gap-1">
-            Do you not have an account?
-            <Link className="text-blue-500" href={"/register"}>
-              Sign up
+            Do you have an account?
+            <Link className="text-blue-500" href={"/login"}>
+              Log in
             </Link>
           </p>
         </form>
