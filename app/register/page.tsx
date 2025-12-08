@@ -3,11 +3,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react"; // ou ícone equivalente
+import { appRouterContext } from "next/dist/server/route-modules/app-route/shared-modules";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function registerPage() {
-  const [showPassword, setShowPassword] = useState(false);
+  // ====> START STATES TO FORM FIELDS <====
+  // Name
+  const [name, setName] = useState("");
+  // email
+  const [email, setEmail] = useState("");
+  // password
+  const [password, setPassword] = useState("");
+  // password confirmation
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  // ====> END STATES TO FORM FIELDS <====
+
+  /**
+   * submit form register to back-end serve
+   * @param event
+   */
+  async function submitForm(event: React.FormEvent<HTMLFormElement>) {
+    //Prevents the default submit logic of html
+    event.preventDefault();
+    // get api url to concat
+    const apiBasePath = process.env.NEXT_PUBLIC_API_URL;
+    //await the fetch finish to get response
+    const response = await fetch(apiBasePath + "/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+      }),
+    });
+  }
+
   return (
     <div className=" h-screen grid grid-cols-2">
       {/* ==== LEFT COLUMN START ==== */}
@@ -21,30 +57,54 @@ export default function registerPage() {
           <img className="w-sm " src={"logo.jpg"} />
         </div>
         {/* FORM */}
-        <form className="mt-12 flex gap-2 flex-col">
+        <form onSubmit={submitForm} className="mt-12 flex gap-2 flex-col">
           {/* NAME INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="name">Name</Label>
-            <Input className="w-full" id="name" type="text" />
+            <Input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="w-full"
+              id="name"
+              type="text"
+            />
           </div>
           {/* EMAIL INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="email">Email</Label>
-            <Input className="w-full" id="email" type="email" />
+            <Input
+              className="w-full"
+              id="email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
           </div>
           {/* PASSWORD INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
           </div>
           {/* CONFIRM PASSWORD INPUT*/}
           <div className="grid w-full items-center gap-3 pr-24 pl-24 relative">
             <Label htmlFor="confirm password">Confirm your password</Label>
-            <Input id="confirm_password" type="password" />
+            <Input
+              id="confirm_password"
+              type="password"
+              value={passwordConfirmation}
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
+            />
           </div>
 
           <div className="w-full pl-24 pr-24">
-            <Button className=" w-full mt-6 h-12">Register</Button>
+            <Button className=" w-full mt-6 h-12" type="submit">
+              Register
+            </Button>
           </div>
           <p className=" flex justify-center gap-1">
             Do you have an account?
