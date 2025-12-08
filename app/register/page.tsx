@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { error } from "console";
 import { Eye, EyeOff } from "lucide-react"; // ou ícone equivalente
 import { appRouterContext } from "next/dist/server/route-modules/app-route/shared-modules";
 import Link from "next/link";
@@ -43,10 +44,6 @@ export default function registerPage() {
     event.preventDefault();
     //reset message fields
     resetMessageFields();
-    //prevent that form fields are empty
-    if (!formIsValid()) {
-      return;
-    }
     // get api url to concat
     const apiBasePath = process.env.NEXT_PUBLIC_API_URL;
     //await the fetch finish to get response
@@ -68,32 +65,33 @@ export default function registerPage() {
       toast.success("User created successfully");
       return;
     }
-    toast.error("Error 🤡");
-  }
+    //else
+    const data = await response.json();
+    if (data.errors) {
+      Object.entries(data.errors).forEach(([key, value]: [string, any]) => {
+        console.log(key);
+        console.log(value);
+        /*example:
 
-  function formIsValid(): boolean {
-    verifyEmptyFields();
-    return (
-      name.trim().length > 0 &&
-      email.trim().length > 0 &&
-      password.trim().length > 0 &&
-      passwordConfirmation.trim().length > 0
-    );
-  }
-  function verifyEmptyFields() {
-    if (name.trim().length == 0) {
-      setNameFieldMessage("The name field not to be empty");
-    }
-    if (email.trim().length == 0) {
-      setEmailFieldMessage("The email field not to be empty");
-    }
-    if (password.trim().length == 0) {
-      setPasswordFieldMessage("The password field not to be empty");
-    }
-    if (passwordConfirmation.trim().length == 0) {
-      setPasswordConfirmationFieldMessage(
-        "The password confirmation field not to be empty"
-      );
+        {
+          key : "value"
+          name: "required"
+        }
+
+        */
+        if (key == "name") {
+          setNameFieldMessage(value[0]);
+        }
+        if (key == "email") {
+          setEmailFieldMessage(value[0]);
+        }
+        if (key == "password") {
+          setPasswordFieldMessage(value[0]);
+        }
+        if (key == "password_confirmation") {
+          setPasswordConfirmationFieldMessage(value[0]);
+        }
+      });
     }
   }
 
