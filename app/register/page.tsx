@@ -96,88 +96,83 @@ export default function registerPage() {
   }
 
   return (
-    <>
-      <ToastContainer />
-      <div className=" h-screen grid grid-cols-2">
-        {/* ==== LEFT COLUMN START ==== */}
-        <div className="bg-[url('/img/login_image.jpg')] bg-cover bg-center"></div>
-        {/* ==== LEFT COLUMN END ==== */}
+    <div className=" h-screen grid grid-cols-2">
+      {/* ==== LEFT COLUMN START ==== */}
+      <div className="bg-[url('/img/login_image.jpg')] bg-cover bg-center"></div>
+      {/* ==== LEFT COLUMN END ==== */}
 
-        {/* ==== RIGHT COLUMN START ==== */}
-        <div className="col-span-1 w-full">
-          {/* LOGO */}
-          <div className="w-full flex justify-center items-center">
-            <img className="w-[250px] " src={"logo.jpg"} />
-          </div>
-          {/* FORM */}
-          <form onSubmit={submitForm} className="mt-12 flex gap-2 flex-col">
-            {/* NAME INPUT */}
-            <div className="grid w-full items-center gap-3 pr-24 pl-24">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                className="w-full"
-                id="name"
-                type="text"
-              />
-              <span className="text-red-500">{nameFieldMessage}</span>
-            </div>
-            {/* EMAIL INPUT */}
-            <div className="grid w-full items-center gap-3 pr-24 pl-24">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                className="w-full"
-                id="email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
-              <span className="text-red-500">{emailFieldMessage}</span>
-            </div>
-            {/* PASSWORD INPUT */}
-            <div className="grid w-full items-center gap-3 pr-24 pl-24">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <span className="text-red-500">{passwordFieldMessage}</span>
-            </div>
-            {/* CONFIRM PASSWORD INPUT*/}
-            <div className="grid w-full items-center gap-3 pr-24 pl-24 relative">
-              <Label htmlFor="confirm password">Confirm your password</Label>
-              <Input
-                id="confirm_password"
-                type="password"
-                value={passwordConfirmation}
-                onChange={(event) =>
-                  setPasswordConfirmation(event.target.value)
-                }
-              />
-
-              <span className="text-red-500">
-                {passwordConfirmationFieldMessage}
-              </span>
-            </div>
-
-            <div className="w-full pl-24 pr-24">
-              <Button className=" w-full mt-6 h-12" type="submit">
-                Register
-              </Button>
-            </div>
-            <p className=" flex justify-center gap-1">
-              Do you have an account?
-              <Link className="text-blue-500" href={"/login"}>
-                Log in
-              </Link>
-            </p>
-          </form>
+      {/* ==== RIGHT COLUMN START ==== */}
+      <div className="col-span-1 w-full">
+        {/* LOGO */}
+        <div className="w-full flex justify-center items-center">
+          <img className="w-[250px] " src={"logo.jpg"} />
         </div>
-        {/* ==== RIGHT COLUMN END ==== */}
+        {/* FORM */}
+        <form onSubmit={submitForm} className="mt-12 flex gap-2 flex-col">
+          {/* NAME INPUT */}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="w-full"
+              id="name"
+              type="text"
+            />
+            <span className="text-red-500">{nameFieldMessage}</span>
+          </div>
+          {/* EMAIL INPUT */}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              className="w-full"
+              id="email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <span className="text-red-500">{emailFieldMessage}</span>
+          </div>
+          {/* PASSWORD INPUT */}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <span className="text-red-500">{passwordFieldMessage}</span>
+          </div>
+          {/* CONFIRM PASSWORD INPUT*/}
+          <div className="grid w-full items-center gap-3 pr-24 pl-24 relative">
+            <Label htmlFor="confirm password">Confirm your password</Label>
+            <Input
+              id="confirm_password"
+              type="password"
+              value={passwordConfirmation}
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
+            />
+
+            <span className="text-red-500">
+              {passwordConfirmationFieldMessage}
+            </span>
+          </div>
+
+          <div className="w-full pl-24 pr-24">
+            <Button className=" w-full mt-6 h-12" type="submit">
+              Register
+            </Button>
+          </div>
+          <p className=" flex justify-center gap-1">
+            Do you have an account?
+            <Link className="text-blue-500" href={"/login"}>
+              Log in
+            </Link>
+          </p>
+        </form>
       </div>
-    </>
+      {/* ==== RIGHT COLUMN END ==== */}
+    </div>
   );
 }

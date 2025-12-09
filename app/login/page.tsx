@@ -1,9 +1,61 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function loginPage() {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  async function doLogin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    resetErrorFields();
+    validFields();
+    if (hasErrors()) {
+      return;
+    }
+    console.log(email, password);
+    const apiRoute = process.env.NEXT_PUBLIC_API_URL + "/login";
+
+    const response = await fetch(apiRoute, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const data = await response.json();
+
+    toast.error(data.message);
+
+    console.log(data);
+  }
+  function validFields(): boolean {
+    if (email.length == 0) {
+      setEmailError("Email field not to be empty");
+    }
+    if (password.length == 0) {
+      setPasswordError("Password field not to be empty");
+    }
+    return true;
+  }
+  function hasErrors(): boolean {
+    return passwordError.length > 0 || emailError.length > 0;
+  }
+  function resetErrorFields() {
+    setEmailError("");
+    setPasswordError("");
+  }
   return (
     <div className=" h-screen grid grid-cols-2">
       {/* ==== LEFT COLUMN START ==== */}
@@ -17,16 +69,35 @@ export default function loginPage() {
           <img className="w-sm " src={"logo.jpg"} />
         </div>
         {/* FORM */}
-        <form className="mt-12 flex gap-2 flex-col">
+        <form onSubmit={doLogin} className="mt-12 flex gap-2 flex-col">
           {/* EMAIL INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="email">Email</Label>
-            <Input className="w-full" id="email" type="email" />
+            <Input
+              className="w-full"
+              id="email"
+              type="email"
+              value={email}
+              //update email value
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setEmail(event.target.value)
+              }
+            />
+            <span className="text-red-500">{emailError}</span>
           </div>
           {/* PASSWORD INPUT */}
           <div className="grid w-full items-center gap-3 pr-24 pl-24">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              // update password value
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setPassword(event.target.value)
+              }
+            />
+            <span className="text-red-500">{passwordError}</span>
           </div>
           <div className="flex justify-end pr-24 mt-1">
             <Link href={"test"}>
