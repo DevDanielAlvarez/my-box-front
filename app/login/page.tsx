@@ -11,6 +11,7 @@ export default function loginPage() {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
   async function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     resetErrorFields();
@@ -34,11 +35,12 @@ export default function loginPage() {
         password: password,
       }),
     });
+    // get body of response
     const data = await response.json();
-
-    toast.error(data.message);
-
-    console.log(data);
+    //show error if request failed
+    if (!response.ok) {
+      toast.error(data.message);
+    }
   }
   function validFields(): boolean {
     if (email.length == 0) {
