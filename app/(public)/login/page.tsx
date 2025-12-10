@@ -24,12 +24,12 @@ export default function loginPage() {
 
     const response = await fetch(apiRoute, {
       method: "POST",
-
+      // required for send correctly the request
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-
+      // convert the json in a object of js
       body: JSON.stringify({
         email: email,
         password: password,
@@ -39,8 +39,9 @@ export default function loginPage() {
     const data = await response.json();
     //show error if request failed
     if (!response.ok) {
-      toast.error(data.message);
+      toast.error(data.message); //notification
     }
+    // *else* (response ok)
   }
   function validFields(): boolean {
     if (email.length == 0) {
