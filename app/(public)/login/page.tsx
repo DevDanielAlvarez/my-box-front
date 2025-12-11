@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -19,6 +20,11 @@ export default function loginPage() {
     if (hasErrors()) {
       return;
     }
+    //==== CRSF TOKEN FETCH ====
+    await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+      method: "GET",
+      credentials: "include",
+    });
     console.log(email, password);
     const apiRoute = process.env.NEXT_PUBLIC_API_URL + "/login";
 
@@ -29,6 +35,7 @@ export default function loginPage() {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      credentials: "include",
       // convert the json in a object of js
       body: JSON.stringify({
         email: email,
@@ -42,6 +49,7 @@ export default function loginPage() {
       toast.error(data.message); //notification
     }
     // *else* (response ok)
+    // redirect("/test");
   }
   function validFields(): boolean {
     if (email.length == 0) {
