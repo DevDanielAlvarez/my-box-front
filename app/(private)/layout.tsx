@@ -11,7 +11,9 @@ export default async function PrivateLayout({
   const cookieStorage = await cookies();
   const token = cookieStorage.get("auth_token");
 
-  console.log(cookieStorage);
+  if (!token) {
+    redirect("login");
+  }
 
   return <>{children}</>;
 }
